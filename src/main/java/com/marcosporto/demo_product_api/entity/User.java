@@ -2,6 +2,12 @@ package com.marcosporto.demo_product_api.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +29,21 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
     private Role role = Role.ROLE_CLIENT;
+
+    @CreatedDate
     @Column(name = "createDate")
     private LocalDateTime createDate;
+    @LastModifiedDate
     @Column(name = "modificationDate")
     private LocalDateTime modificationDate;
+
+    @CreatedBy
     @Column(name = "createBy")
-    private LocalDateTime createBy;
+    private String createBy;
+
+    @LastModifiedDate
     @Column(name = "modifiedBy")
-    private LocalDateTime modifiedBy;
+    private String modifiedBy;
 
     public enum Role {
         ROLE_ADMIN, // Acesso total
