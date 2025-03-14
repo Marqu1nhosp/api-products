@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,7 @@ public class UserController {
                         @ApiResponse(responseCode = "404", description = "Recurso não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
         })
         @GetMapping("/{id}")
+        @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<UserResponseDto> searchByIdUser(@PathVariable Long id) {
                 User user = userService.searchByIdUser(id);
                 return ResponseEntity.ok(UserMapper.toDto(user));
