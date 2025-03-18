@@ -69,6 +69,7 @@ public class UserController {
                         @ApiResponse(responseCode = "422", description = "Campos invalidos ou mal formatados.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
         })
         @PatchMapping("/{id}")
+        @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT', 'MANAGER', 'SELLER') AND (#id == authentication.principal.id)")
         public ResponseEntity<Void> updatePassword(@PathVariable Long id,
                         @Valid @RequestBody UserUpdatePasswordDto userUpdatePasswordDto) {
                 userService.updatePassword(id, userUpdatePasswordDto.getCurrentPassword(),
@@ -76,6 +77,7 @@ public class UserController {
                 return ResponseEntity.noContent().build();
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @Operation(summary = "Listar todos os usuarios.", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN", security = @SecurityRequirement(name = "security"), responses = {
                         @ApiResponse(responseCode = "200", description = "Listar todos os usuario cadastrados.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))),
                         @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
