@@ -78,6 +78,7 @@ public class UserController {
         }
 
         @PreAuthorize("hasRole('ADMIN')")
+
         @Operation(summary = "Listar todos os usuarios.", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN", security = @SecurityRequirement(name = "security"), responses = {
                         @ApiResponse(responseCode = "200", description = "Listar todos os usuario cadastrados.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))),
                         @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.marcosporto.demo_product_api.entity.User;
 import com.marcosporto.demo_product_api.entity.User.Role;
 import com.marcosporto.demo_product_api.exception.EntityNotFoundException;
+import com.marcosporto.demo_product_api.exception.PasswordInvalidException;
 import com.marcosporto.demo_product_api.exception.UsernameUniqueViolationExcepetion;
 import com.marcosporto.demo_product_api.repository.UserRepository;
 
@@ -41,12 +42,12 @@ public class UserService {
     @Transactional
     public User updatePassword(Long id, String currentPassword, String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword)) {
-            throw new RuntimeException("Nova senha não confere com confirmação de senha.");
+            throw new PasswordInvalidException("Nova senha não confere com confirmação de senha.");
         }
 
         User user = searchByIdUser(id);
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new RuntimeException("Sua senha não confere.");
+            throw new PasswordInvalidException("Sua senha não confere.");
         }
         user.setPassword(passwordEncoder.encode(newPassword));
 
