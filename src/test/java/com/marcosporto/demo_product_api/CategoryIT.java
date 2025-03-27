@@ -26,6 +26,8 @@ public class CategoryIT {
                 .post()
                 .uri("/api/v1/categories")
                 .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com",
+                        "123456"))
                 .bodyValue(new CategoryCreateDto("teste de categoria"))
                 .exchange()
                 .expectStatus().isCreated()
@@ -35,6 +37,7 @@ public class CategoryIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getName()).isEqualTo("teste de categoria");
+
     }
 
     @Test
@@ -42,6 +45,7 @@ public class CategoryIT {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/categories")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new CategoryCreateDto(""))
                 .exchange()
@@ -58,6 +62,7 @@ public class CategoryIT {
         CategoryResponseDto responseBody = testClient
                 .get()
                 .uri("/api/v1/categories/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(CategoryResponseDto.class)
@@ -73,6 +78,7 @@ public class CategoryIT {
         ErrorMessage responseBody = testClient
                 .get()
                 .uri("/api/v1/categories/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorMessage.class)
@@ -87,6 +93,7 @@ public class CategoryIT {
         testClient
                 .delete()
                 .uri("/api/v1/categories/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNoContent();
     }
@@ -96,6 +103,7 @@ public class CategoryIT {
         testClient
                 .delete()
                 .uri("/api/v1/products/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -105,6 +113,7 @@ public class CategoryIT {
         testClient
                 .put()
                 .uri("/api/v1/categories/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new CategoryUpdateDto("teste123"))
                 .exchange()
@@ -117,6 +126,7 @@ public class CategoryIT {
         testClient
                 .put()
                 .uri("/api/v1/categories/1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new CategoryUpdateDto("teste123"))
                 .exchange()
