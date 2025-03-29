@@ -28,6 +28,7 @@ public class ProductIT {
                 .post()
                 .uri("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .bodyValue(new ProductCreateDto("teste de produto", "descrição do produto", 500.00))
                 .exchange()
                 .expectStatus().isCreated()
@@ -46,6 +47,7 @@ public class ProductIT {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/products")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new ProductCreateDto("", "", 500.00))
                 .exchange()
@@ -62,6 +64,7 @@ public class ProductIT {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/products")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new ProductCreateDto("te", "descrição do produto", 500.00))
                 .exchange()
@@ -78,6 +81,7 @@ public class ProductIT {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/products")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new ProductCreateDto("te", "descrição do produto", -10.00))
                 .exchange()
@@ -94,6 +98,7 @@ public class ProductIT {
         ProductResponseDto responseBody = testClient
                 .get()
                 .uri("/api/v1/products/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(ProductResponseDto.class)
@@ -111,6 +116,7 @@ public class ProductIT {
         ErrorMessage responseBody = testClient
                 .get()
                 .uri("/api/v1/products/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorMessage.class)
@@ -125,6 +131,7 @@ public class ProductIT {
         testClient
                 .delete()
                 .uri("/api/v1/products/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNoContent();
     }
@@ -134,6 +141,7 @@ public class ProductIT {
         testClient
                 .delete()
                 .uri("/api/v1/products/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -143,6 +151,7 @@ public class ProductIT {
         List<ProductResponseDto> responseBody = testClient
                 .get()
                 .uri("/api/v1/products")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(ProductResponseDto.class)
@@ -158,6 +167,7 @@ public class ProductIT {
         testClient
                 .put()
                 .uri("/api/v1/products/100")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new ProductUpdateDto("teste123", "teste descrição", 55.00))
                 .exchange()
@@ -170,6 +180,7 @@ public class ProductIT {
         testClient
                 .put()
                 .uri("/api/v1/products/1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcos@gmail.com", "123456"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new ProductUpdateDto("teste123", "teste descrição", 55.00))
                 .exchange()
