@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,18 +38,19 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @Operation(summary = "Criar uma nova categoria.", description = "Recurso para criar uma nova categoria.", responses = {
+    @Operation(summary = "Criar uma nova categoria.", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN", responses = {
             @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryCreateDto.class))),
             @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
     })
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryResponseDto> create(@Valid @RequestBody CategoryCreateDto categoryCreateDto) {
         Category newCategory = categoryService.save(CategoryMapper.toCategory(categoryCreateDto));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(CategoryMapper.toDto(newCategory));
     }
 
-    @Operation(summary = "Listar todos as categorias.", description = "Recurso para listar as categorias.", responses = {
+    @Operation(summary = "Listar todos as categorias.", description = "Requisição exige um Bearer Token.", responses = {
             @ApiResponse(responseCode = "200", description = "Recurso listado com sucesso.", content = @Content(mediaType = "application/json")),
 
     })
@@ -59,7 +61,7 @@ public class CategoryController {
         return ResponseEntity.ok(CategoryMapper.toListDto(categories));
     }
 
-    @Operation(summary = "Buscar uma categoria.", description = "Recurso para buscar uma categoria.", responses = {
+    @Operation(summary = "Buscar uma categoria.", description = "Requisição exige um Bearer Token.", responses = {
             @ApiResponse(responseCode = "200", description = "Recurso buscado com sucesso.", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
     })
@@ -70,22 +72,23 @@ public class CategoryController {
         return ResponseEntity.ok(CategoryMapper.toDto(category));
     }
 
-    @Operation(summary = "Deletar uma categoria.", description = "Recurso para deletar uma categoria.", responses = {
+    @Operation(summary = "Deletar uma categoria.", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN", responses = {
             @ApiResponse(responseCode = "204", description = "Recurso deletado com sucesso.", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
     })
-
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> deleteCategory(@PathVariable Long id) {
         Category category = categoryService.deleteCategory(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(category);
     }
 
-    @Operation(summary = "Alterar uma nova categoria.", description = "Recurso para alterar uma nova categoria..", responses = {
+    @Operation(summary = "Alterar uma nova categoria.", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN", responses = {
             @ApiResponse(responseCode = "200", description = "Recurso alterado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryCreateDto.class))),
             @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
     })
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable Long id,
             @Valid @RequestBody CategoryUpdateDto categoryUpdateDto) {
         Category existingCategory = categoryService.searchCategory(id);
