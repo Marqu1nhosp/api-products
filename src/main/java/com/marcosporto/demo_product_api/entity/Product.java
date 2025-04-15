@@ -27,6 +27,10 @@ public class Product implements Serializable {
     @Column(name = "modificationDate")
     private LocalDateTime modificationDate;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     @Override
     public int hashCode() {
         final int prime = 31;

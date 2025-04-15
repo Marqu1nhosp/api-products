@@ -45,7 +45,7 @@ public class ProductController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponseDto> create(@Valid @RequestBody ProductCreateDto productCreateDto) {
-        Product newProduct = productService.save(ProductMapper.toProduct(productCreateDto));
+        Product newProduct = productService.save(productCreateDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDto(newProduct));
     }
@@ -100,7 +100,8 @@ public class ProductController {
         Product updatedProduct = productService.updateProduct(id,
                 productUpdateDto.getName(),
                 productUpdateDto.getPrice(),
-                productUpdateDto.getDescription());
+                productUpdateDto.getDescription(),
+                productUpdateDto.getCategoryId());
 
         return ResponseEntity.ok(ProductMapper.toDto(updatedProduct));
     }

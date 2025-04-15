@@ -22,4 +22,7 @@ public class ProductUpdateDto {
     @NotNull(message = "O preço é obrigatório")
     @Positive(message = "O preço deve ser positivo")
     private Double price;
+
+    @NotNull(message = "A categoria é obrigatória")
+    private Long categoryId;
 }
