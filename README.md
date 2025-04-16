@@ -68,35 +68,46 @@ Abaixo estão os esquemas de dados utilizados para as operações na API:
 
 ### ProductCreateDto
 
-- Detalhes sobre a criação de um novo produto.
+- **name** (string): Nome do produto.
+- **description** (string): Descrição do produto.
+- **price** (float): Preço do produto.
+- **categoryId** (integer): ID da categoria do produto.
 
 ### ProductUpdateDto
 
-- Detalhes sobre a atualização de um produto.
+- **name** (string): Nome do produto.
+- **description** (string): Descrição do produto.
+- **price** (float): Preço do produto.
+- **categoryId** (integer): ID da categoria do produto.
 
 ### CategoryCreateDto
 
-- Detalhes sobre a criação de uma nova categoria.
+- **name** (string): Nome da categoria.
 
 ### CategoryUpdateDto
 
-- Detalhes sobre a atualização de uma categoria.
+- **name** (string): Nome da categoria.
 
 ### UserCreateDto
 
-- Detalhes sobre a criação de um novo usuário.
+- **username** (string): Nome de usuário.
+- **password** (string): Senha do usuário.
 
 ### UserLoginDto
 
-- Detalhes para autenticação de um usuário.
+- **username** (string): Nome de usuário.
+- **password** (string): Senha do usuário.
 
 ### UserUpdatePasswordDto
 
-- Detalhes sobre a atualização de senha de um usuário.
+- **currentPassword** (string): Senha atual.
+- **newPassword** (string): Nova senha.
+- **confirmPassword** (string): Confirmação da nova senha.
 
 ### UserResponseDto
 
-- Detalhes sobre a resposta da criação/consulta de um usuário.
+- **id** (integer): ID do usuário.
+- **username** (string): Nome de usuário.
 
 ---
 
@@ -106,11 +117,10 @@ Abaixo estão os esquemas de dados utilizados para as operações na API:
 
 - Java 11 ou superior
 - Maven
-- Banco de dados configurado(MySQL)
+- Banco de dados configurado (MySQL)
 
 ### Passos para executar:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/spring-products.git
-   ```
+   git clone https://github.com/marqu1nhosp/api-products.git
