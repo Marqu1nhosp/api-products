@@ -1,17 +1,21 @@
 package com.marcosporto.demo_product_api.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcosporto.demo_product_api.entity.Category;
+import com.marcosporto.demo_product_api.entity.Inventory;
 import com.marcosporto.demo_product_api.entity.Product;
 import com.marcosporto.demo_product_api.exception.EntityNotFoundException;
 import com.marcosporto.demo_product_api.repository.CategoryRepository;
+import com.marcosporto.demo_product_api.repository.InventoryRepository;
 import com.marcosporto.demo_product_api.repository.ProductRepository;
 import com.marcosporto.demo_product_api.web.dto.ProductCreateDto;
+import com.marcosporto.demo_product_api.web.dto.ProductResponseDto;
 
 import lombok.*;
 
@@ -21,6 +25,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final InventoryRepository inventoryRepository;
 
     @Transactional
     public Product save(ProductCreateDto dto) {
@@ -38,8 +43,25 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<ProductResponseDto> findAll() {
+        List<Product> products = productRepository.findAll();
+        List<ProductResponseDto> productResponseDtos = new ArrayList<>();
+
+        for (Product product : products) {
+            Inventory inventory = inventoryRepository.findByProductId(product.getId());
+
+            ProductResponseDto productResponseDto = new ProductResponseDto(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice(),
+                    product.getCategory().getName(),
+                    inventory != null ? inventory.getQuantity() : null);
+
+            productResponseDtos.add(productResponseDto);
+        }
+
+        return productResponseDtos;
     }
 
     @Transactional(readOnly = true)

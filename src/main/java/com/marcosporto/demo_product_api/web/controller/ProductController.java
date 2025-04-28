@@ -56,9 +56,9 @@ public class ProductController {
     })
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> getAll() {
-        List<Product> products = productService.findAll();
+        List<ProductResponseDto> products = productService.findAll();
 
-        return ResponseEntity.ok(ProductMapper.toListDto(products));
+        return ResponseEntity.ok(products);
     }
 
     @Operation(summary = "Buscar um produto.", description = "Requisição exige um Bearer Token.", responses = {

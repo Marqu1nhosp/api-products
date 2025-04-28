@@ -38,7 +38,7 @@ public class UsersIT {
                 org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isNotNull();
                 org.assertj.core.api.Assertions.assertThat(responseBody.getUsername())
                                 .isEqualTo("marcosteste@gmail.com");
-                org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("CLIENT");
+                org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("ADMIN");
         }
 
         @Test

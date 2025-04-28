@@ -6,4 +6,6 @@ import com.marcosporto.demo_product_api.entity.Inventory;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
+    Inventory findByProductId(Long id);
+
 }
